@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Wastewater Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>💧 AquaMonitor</h2>
+        <ul>
+            <li onclick="showSection('dashboard')" class="active">Dashboard</li>
+            <li onclick="showSection('analytics')">Analytics</li>
+            <li onclick="showSection('alerts')">Alerts</li>
+            <li onclick="showSection('settings')">Settings</li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+        <div id="dashboard" class="section active-section">
+
+    <div class="container">
+        <div class="card">
+            <h2>Water Level</h2>
+            <p id="level">--</p>
+        </div>
+
+        <div class="card">
+            <h2>pH Value</h2>
+            <p id="ph">--</p>
+        </div>
+
+        <div class="card">
+            <h2>Turbidity</h2>
+            <p id="turbidity">--</p>
+        </div>
+
+        <div class="card">
+            <h2>Flow Rate</h2>
+            <p id="flow">--</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>System Alerts</h2>
+        <p id="alert">All systems normal ✅</p>
+    </div>
+
+    <div class="card chart-card">
+        <h2>Water Quality Trend</h2>
+        <canvas id="chart"></canvas>
+    </div>
+
+</div>
+
+<!-- Analytics Section -->
+<div id="analytics" class="section">
+    <div class="card">
+        <h2>Analytics</h2>
+        <p>Detailed data insights will appear here 📊</p>
+    </div>
+</div>
+
+<!-- Alerts Section -->
+<div id="alerts" class="section">
+    <div class="card">
+        <h2>Alerts History</h2>
+        <p>No critical alerts yet 🚀</p>
+    </div>
+</div>
+
+<!-- Settings Section -->
+<div id="settings" class="section">
+    <div class="card">
+        <h2>Settings</h2>
+        <p>Configure system preferences ⚙️</p>
+    </div>
+</div>
+        
+    </main>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

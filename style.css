@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+/* Layout */
+.dashboard {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #020617;
+    padding: 20px;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar li:hover,
+.sidebar .active {
+    background: #1e293b;
+}
+
+/* Main */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Topbar */
+.topbar {
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Chart */
+.chart-card {
+    margin-top: 20px;
+}
+
+canvas {
+    max-height: 250px;
+}
+.card p {
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        padding: 10px;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
+.toggle-btn {
+    float: right;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #1e293b;
+    color: white;
+}
+.light-mode {
+    background: #f1f5f9;
+    color: black;
+}
+
+.light-mode .card {
+    background: white;
+    color: black;
+}
+
+.light-mode .sidebar {
+    background: #e2e8f0;
+    color: black;
+}
+.section {
+    display: none;
+}
+
+.active-section {
+    display: block;
+}
