@@ -1,96 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Smart Wastewater Dashboard</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 
-<div class="dashboard">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h2>💧 AquaMonitor</h2>
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h1 class="logo">💧 AquaMonitor</h1>
+
         <ul>
-            <li onclick="showSection('dashboard')" class="active">Dashboard</li>
+
+            <li onclick="showSection('dashboard')">Dashboard</li>
+
             <li onclick="showSection('analytics')">Analytics</li>
+
             <li onclick="showSection('alerts')">Alerts</li>
+
             <li onclick="showSection('settings')">Settings</li>
+
         </ul>
-    </aside>
 
-    <!-- Main -->
-    <main class="main">
-        <div id="dashboard" class="section active-section">
+    </div>
 
-    <div class="container">
-        <div class="card">
-            <h2>Water Level</h2>
-            <p id="level">--</p>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+
+        <!-- DASHBOARD SECTION -->
+
+        <div id="dashboard" class="section">
+
+
+            <!-- TOP CARDS -->
+
+            <div class="top-cards">
+
+                <div class="card">
+                    <h3>Water Level</h3>
+                    <p id="waterLevel">73%</p>
+                </div>
+
+                <div class="card">
+                    <h3>pH Value</h3>
+                    <p id="phValue">6.97</p>
+                </div>
+
+                <div class="card">
+                    <h3>Turbidity</h3>
+                    <p id="turbidity">20 NTU</p>
+                </div>
+
+                <div class="card">
+                    <h3>Flow Rate</h3>
+                    <p id="flowRate">5.25 L/s</p>
+                </div>
+
+            </div>
+
+
+
+            <!-- ALERT SECTION -->
+
+            <div class="alert-card">
+
+                <h3>System Alerts</h3>
+
+                <p id="systemStatus">✅ All systems normal</p>
+
+            </div>
+
+
+
+            <!-- GRAPH SECTION -->
+
+            <div class="graph-card">
+
+                <h3>Overall Water Quality Index</h3>
+
+                <div class="chart-container">
+
+                    <canvas id="waterChart"></canvas>
+
+                </div>
+
+                <p id="qualityText">Good Water Quality</p>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h2>pH Value</h2>
-            <p id="ph">--</p>
+
+
+        <!-- ANALYTICS SECTION -->
+
+        <div id="analytics" class="section" style="display:none;">
+
+            <div class="graph-card">
+
+                <h2>Analytics Overview</h2>
+
+                <br>
+
+                <p>Average pH Value : 7.1</p>
+
+                <br>
+
+                <p>Average Turbidity : 18 NTU</p>
+
+                <br>
+
+                <p>Maximum Flow Rate : 6.2 L/s</p>
+
+                <br>
+
+                <p>Water Quality Efficiency : 89%</p>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h2>Turbidity</h2>
-            <p id="turbidity">--</p>
+
+
+        <!-- ALERTS SECTION -->
+
+        <div id="alerts" class="section" style="display:none;">
+
+            <div class="graph-card">
+
+                <h2>Recent Alerts</h2>
+
+                <br>
+
+                <p>⚠ High Turbidity Detected</p>
+
+                <br>
+
+                <p>⚠ Water is Acidic</p>
+
+                <br>
+
+                <p>⚠ Low Water Level</p>
+
+                <br>
+
+                <p>✅ Flow Rate Stable</p>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h2>Flow Rate</h2>
-            <p id="flow">--</p>
+
+
+        <!-- SETTINGS SECTION -->
+
+        <div id="settings" class="section" style="display:none;">
+
+            <div class="graph-card">
+
+                <h2>Settings</h2>
+
+                <br>
+
+                <p>Dark Mode : Enabled</p>
+
+                <br>
+
+                <p>Alert Threshold : Active</p>
+
+                <br>
+
+                <p>Sensor Calibration : Normal</p>
+
+                <br>
+
+                <p>Live Monitoring : Enabled</p>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="card">
-        <h2>System Alerts</h2>
-        <p id="alert">All systems normal ✅</p>
-    </div>
 
-    <div class="card chart-card">
-        <h2>Water Quality Trend</h2>
-        <canvas id="chart"></canvas>
-    </div>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 
-</div>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
-<!-- Analytics Section -->
-<div id="analytics" class="section">
-    <div class="card">
-        <h2>Analytics</h2>
-        <p>Detailed data insights will appear here 📊</p>
-    </div>
-</div>
 
-<!-- Alerts Section -->
-<div id="alerts" class="section">
-    <div class="card">
-        <h2>Alerts History</h2>
-        <p>No critical alerts yet 🚀</p>
-    </div>
-</div>
 
-<!-- Settings Section -->
-<div id="settings" class="section">
-    <div class="card">
-        <h2>Settings</h2>
-        <p>Configure system preferences ⚙️</p>
-    </div>
-</div>
-        
-    </main>
-</div>
+    <!-- SCRIPT -->
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>

@@ -1,71 +1,163 @@
-let chartData = [20, 30, 25, 35, 40, 45];
+// FIREBASE CONFIG
 
-const ctx = document.getElementById('chart').getContext('2d');
+const firebaseConfig = {
 
-const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ["1", "2", "3", "4", "5", "6"],
-        datasets: [{
-            label: 'Turbidity',
-            data: chartData,
-            borderColor: '#38bdf8',
-            backgroundColor: 'rgba(56,189,248,0.2)',
-            tension: 0.4,
-            fill: true
-        }]
-    },
-    options: {
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            x: { display: false },
-            y: { display: false }
+    apiKey: "AIzaSyD8l0Y_DyC8qOfR13DQvWLRDFjTaowqGPY",
+
+    authDomain: "aquamonitor-387e6.firebaseapp.com",
+
+    databaseURL: "https://aquamonitor-387e6-default-rtdb.firebaseio.com",
+
+    projectId: "aquamonitor-387e6",
+
+    storageBucket: "aquamonitor-387e6.appspot.com",
+
+    messagingSenderId: "891933637500",
+
+    appId: "1:891933637500:web:ecfa3facb77548317882f9"
+};
+
+
+// INITIALIZE FIREBASE
+
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
+
+
+
+// GET LIVE VALUES FROM FIREBASE
+
+database.ref("/").on("value", (snapshot) => {
+
+    const data = snapshot.val();
+
+
+    if (data) {
+
+        let waterLevel = data.waterLevel;
+
+        let phValue = data.phValue;
+
+        let turbidity = data.turbidity;
+
+        let flowRate = data.flowRate;
+
+
+
+        // UPDATE DASHBOARD CARDS
+
+        document.getElementById("waterLevel").innerText =
+            waterLevel + "%";
+
+        document.getElementById("phValue").innerText =
+            phValue;
+
+        document.getElementById("turbidity").innerText =
+            turbidity + " NTU";
+
+        document.getElementById("flowRate").innerText =
+            flowRate + " L/s";
+
+
+
+        // ALERT SYSTEM
+
+        let statusMessage = "";
+
+
+        if (phValue < 6.5) {
+
+            statusMessage = "⚠ Water is acidic";
         }
+
+        else if (phValue > 8.5) {
+
+            statusMessage = "⚠ Water is alkaline";
+        }
+
+        else if (turbidity > 30) {
+
+            statusMessage = "⚠ High turbidity detected";
+        }
+
+        else if (waterLevel < 25) {
+
+            statusMessage = "⚠ Low water level";
+        }
+
+        else if (flowRate < 2) {
+
+            statusMessage = "⚠ Low flow rate";
+        }
+
+        else {
+
+            statusMessage = "✅ All systems normal";
+        }
+
+
+        document.getElementById("systemStatus").innerText =
+            statusMessage;
     }
 });
 
 
-function updateData() {
-    let level = (Math.random() * 100).toFixed(1);
-    let ph = (6 + Math.random() * 2).toFixed(2);
-    let turbidity = (Math.random() * 50).toFixed(1);
-    let flow = (Math.random() * 10).toFixed(2);
 
-    document.getElementById("level").innerText = level + " %";
-    document.getElementById("ph").innerText = ph;
-    document.getElementById("turbidity").innerText = turbidity + " NTU";
-    document.getElementById("flow").innerText = flow + " L/s";
 
-    // Chart update
-    chartData.push(turbidity);
-    chartData.shift();
-    myChart.update();
+// CHART
 
-    // Alert system
-    let alertText = "All systems normal ✅";
+const ctx = document.getElementById('waterChart');
 
-    if (ph > 8) {
-        alertText = "⚠️ High pH detected!";
+
+new Chart(ctx, {
+
+    type: 'line',
+
+    data: {
+
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+
+        datasets: [{
+
+            label: 'Water Quality Index',
+
+            data: [82, 78, 74, 69, 85, 90],
+
+            borderColor: '#38bdf8',
+
+            backgroundColor: 'rgba(56,189,248,0.2)',
+
+            fill: true,
+
+            tension: 0.4,
+
+            borderWidth: 3
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false
     }
+});
 
-    if (turbidity > 40) {
-        alertText = "⚠️ Water is too turbid!";
-    }
 
-    document.getElementById("alert").innerText = alertText;
-}
 
-function toggleTheme() {
-    document.body.classList.toggle("light-mode");
-}
 
-setInterval(updateData, 2000);
-updateData();
+// SIDEBAR SWITCHING
+
 function showSection(sectionId) {
-    let sections = document.querySelectorAll(".section");
-    sections.forEach(sec => sec.classList.remove("active-section"));
 
-    document.getElementById(sectionId).classList.add("active-section");
+    const sections = document.querySelectorAll('.section');
+
+    sections.forEach(section => {
+
+        section.style.display = 'none';
+    });
+
+    document.getElementById(sectionId).style.display = 'block';
 }
