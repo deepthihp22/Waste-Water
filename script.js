@@ -1,139 +1,110 @@
-// FIREBASE CONFIG
+// STATIC SENSOR VALUES
 
-const firebaseConfig = {
+const phValue = 5.1;
 
-    apiKey: "AIzaSyD8l0Y_DyC8qOfR13DQvWLRDFjTaowqGPY",
+const turbidity = 82;
 
-    authDomain: "aquamonitor-387e6.firebaseapp.com",
+const waterLevel = 28;
 
-    databaseURL: "https://aquamonitor-387e6-default-rtdb.firebaseio.com",
-
-    projectId: "aquamonitor-387e6",
-
-    storageBucket: "aquamonitor-387e6.appspot.com",
-
-    messagingSenderId: "891933637500",
-
-    appId: "1:891933637500:web:ecfa3facb77548317882f9"
-};
+const flowRate = 2.3;
 
 
-// INITIALIZE FIREBASE
+// UPDATE DASHBOARD CARDS
 
-firebase.initializeApp(firebaseConfig);
+document.getElementById("phValue").innerText =
+phValue;
 
-const database = firebase.database();
+document.getElementById("turbidity").innerText =
+turbidity + " NTU";
 
+document.getElementById("waterLevel").innerText =
+waterLevel + "%";
 
-
-
-// GET LIVE VALUES FROM FIREBASE
-
-database.ref("/").on("value", (snapshot) => {
-
-    const data = snapshot.val();
-
-
-    if (data) {
-
-        let waterLevel = data.waterLevel;
-
-        let phValue = data.phValue;
-
-        let turbidity = data.turbidity;
-
-        let flowRate = data.flowRate;
+document.getElementById("flowRate").innerText =
+flowRate + " L/s";
 
 
+// ALERT SYSTEM
 
-        // UPDATE DASHBOARD CARDS
+let statusMessage = "";
 
-        document.getElementById("waterLevel").innerText =
-            waterLevel + "%";
+if (phValue < 6.5) {
 
-        document.getElementById("phValue").innerText =
-            phValue;
+    statusMessage = "⚠ Water is acidic";
 
-        document.getElementById("turbidity").innerText =
-            turbidity + " NTU";
+}
 
-        document.getElementById("flowRate").innerText =
-            flowRate + " L/s";
+if (turbidity > 50) {
 
+    statusMessage += " | Highly Turbid Water";
+}
 
+if (waterLevel < 30) {
 
-        // ALERT SYSTEM
-
-        let statusMessage = "";
-
-
-        if (phValue < 6.5) {
-
-            statusMessage = "⚠ Water is acidic";
-        }
-
-        else if (phValue > 8.5) {
-
-            statusMessage = "⚠ Water is alkaline";
-        }
-
-        else if (turbidity > 30) {
-
-            statusMessage = "⚠ High turbidity detected";
-        }
-
-        else if (waterLevel < 25) {
-
-            statusMessage = "⚠ Low water level";
-        }
-
-        else if (flowRate < 2) {
-
-            statusMessage = "⚠ Low flow rate";
-        }
-
-        else {
-
-            statusMessage = "✅ All systems normal";
-        }
+    statusMessage += " | Low Water Level";
+}
 
 
-        document.getElementById("systemStatus").innerText =
-            statusMessage;
-    }
-});
+document.getElementById("systemStatus").innerText =
+statusMessage;
 
 
+// WATER QUALITY MESSAGE
+
+let qualityMessage = "";
+
+if (turbidity > 70 || phValue < 6) {
+
+    qualityMessage = "Poor Water Quality";
+
+} else {
+
+    qualityMessage = "Safe Water";
+}
 
 
-// CHART
+document.getElementById("qualityText").innerText =
+qualityMessage;
 
-const ctx = document.getElementById('waterChart');
 
+// GRAPH
+
+const ctx = document.getElementById("waterChart");
 
 new Chart(ctx, {
 
-    type: 'line',
+    type: "line",
 
     data: {
 
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        labels: [
+
+            "9 AM",
+
+            "10 AM",
+
+            "11 AM",
+
+            "12 PM",
+
+            "1 PM"
+        ],
 
         datasets: [{
 
-            label: 'Water Quality Index',
+            label: "Water Quality Index",
 
-            data: [82, 78, 74, 69, 85, 90],
+            data: [55, 50, 45, 40, 35],
 
-            borderColor: '#38bdf8',
+            borderColor: "red",
 
-            backgroundColor: 'rgba(56,189,248,0.2)',
+            backgroundColor: "rgba(255,0,0,0.2)",
 
             fill: true,
 
             tension: 0.4,
 
-            borderWidth: 3
+            borderWidth: 2
         }]
     },
 
@@ -141,23 +112,18 @@ new Chart(ctx, {
 
         responsive: true,
 
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                min: 0,
+
+                max: 100
+            }
+        }
     }
 });
-
-
-
-
-// SIDEBAR SWITCHING
-
-function showSection(sectionId) {
-
-    const sections = document.querySelectorAll('.section');
-
-    sections.forEach(section => {
-
-        section.style.display = 'none';
-    });
-
-    document.getElementById(sectionId).style.display = 'block';
-}
